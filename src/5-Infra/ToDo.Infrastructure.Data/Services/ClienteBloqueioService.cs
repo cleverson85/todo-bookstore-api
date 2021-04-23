@@ -20,7 +20,7 @@ namespace ToDo.Infrastructure.Services
 
         public async Task<Cliente> BloquearCliente(int clienteId)
         {
-            var cliente = await _clienteService.FindById(clienteId);
+            var cliente = await _clienteService.GetById(clienteId);
             var clienteBloqueio = await _clienteBloqueioRepository.GetByClienteIdeSituacao(new PaginacaoParametroDto(), clienteId, SituacaoCliente.Ativo);
 
             if (clienteBloqueio == null)
@@ -39,7 +39,7 @@ namespace ToDo.Infrastructure.Services
 
         public async Task<Cliente> DesbloquearCliente(int clienteId)
         {
-            var cliente = await _clienteService.FindById(clienteId);
+            var cliente = await _clienteService.GetById(clienteId);
             var clienteBloqueio = await _clienteBloqueioRepository.GetByClienteIdeSituacao(new PaginacaoParametroDto(), clienteId, SituacaoCliente.Bloqueado);
 
             clienteBloqueio.DesBloquear();

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using ToDo.Application.ViewModels;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
 using ToDo.Domain.Pesquisa;
@@ -7,13 +9,18 @@ using static ToDo.Domain.Util.Endpoints;
 
 namespace ToDo.Api.Controllers
 {
+    [Helpers.Authorize]
     [ApiController]
-    public abstract class BaseController<Entity> : Controller where Entity : BaseEntity
+    public abstract class BaseController<Entity, ViewModel> : Controller 
+        where Entity : BaseEntity
+        where ViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IBaseService<Entity> _baseService;
 
-        public BaseController(IBaseService<Entity> baseService)
+        public BaseController(IBaseService<Entity> baseService, IMapper mapper)
         {
+            _mapper = mapper;
             _baseService = baseService;
         }
 
@@ -30,15 +37,16 @@ namespace ToDo.Api.Controllers
         [Route(Route.ID)]
         public virtual async Task<IActionResult> FindById(int id)
         {
-            var result = await _baseService.GetById(id, null);
+            var result = await _baseService.GetById(id);
             return Ok(result);
         }
 
         [HttpPost]
         [Route(Route.POST)]
-        public virtual async Task<IActionResult> Save([FromBody] Entity entity)
+        public virtual async Task<IActionResult> Save([FromBody] ViewModel viewModel)
         {
-            await _baseService.Save(entity);
+            var result = _mapper.Map<Entity>(viewModel);
+            await _baseService.Save(result);
             return Ok(await GetAll(new PaginacaoParametroDto()));
         }
 
@@ -48,6 +56,13 @@ namespace ToDo.Api.Controllers
         {
             await _baseService.Delete(id);
             return Ok();
+        }
+
+        [HttpPost]
+        [Route(Route.ALL)]
+        public virtual async Task<IActionResult> FindByDescription([FromBody] Pesquisa description)
+        {
+            return await Task.FromResult(Ok());
         }
     }
 }

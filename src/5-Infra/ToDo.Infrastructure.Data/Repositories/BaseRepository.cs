@@ -77,16 +77,16 @@ namespace ToDo.Infrastructure.Data.Repositories
             return await _dbSet.CountAsync();
         }
 
-        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, 
+        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Func<Entity, bool> filter = null, 
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, params Expression<Func<Entity, object>>[] includes)
         {
-            IQueryable<Entity> query = _dbSet;
+            IEnumerable<Entity> query = _dbSet;
 
             if (includes.Any())
             {
                 foreach (var include in includes)
                 {
-                    query = query.Include(include);
+                    query = query.AsQueryable().Include(include);
                 }
             }
 
@@ -97,13 +97,13 @@ namespace ToDo.Infrastructure.Data.Repositories
 
             if (orderBy != null)
             {
-                return await orderBy(query).ToListAsync();
+                query = orderBy(query.AsQueryable());
             }
 
             query = query.Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
                          .Take(paginacaoParametro.ItensPorPagina);
 
-            var result = await query.ToListAsync();
+            var result = await Task.FromResult(query.ToList());
             return result;
         }
 

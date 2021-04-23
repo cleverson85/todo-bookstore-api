@@ -10,8 +10,7 @@ namespace ToDo.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<Cliente> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Cpf)
-                .IsRequired();
+            builder.Property(c => c.Cpf);
             builder.Property(c => c.Situacao)
                 .HasDefaultValue(SituacaoCliente.Ativo);
             builder.HasOne(c => c.Pessoa);

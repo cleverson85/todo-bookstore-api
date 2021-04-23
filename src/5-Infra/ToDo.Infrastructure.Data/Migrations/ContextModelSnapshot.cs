@@ -27,10 +27,9 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Cpf")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("InstituicaoEnsinoId")
+                    b.Property<int>("InstituicaoEnsinoId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("PessoaId")
@@ -60,7 +59,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("BloqueadoAte")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 5, 21, 19, 33, 47, 712, DateTimeKind.Local).AddTicks(2931));
+                        .HasDefaultValue(new DateTime(2021, 5, 22, 23, 17, 28, 34, DateTimeKind.Local).AddTicks(232));
 
                     b.Property<int?>("ClienteId")
                         .HasColumnType("integer");
@@ -90,12 +89,12 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DataDevolucao")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 5, 21, 19, 33, 47, 717, DateTimeKind.Local).AddTicks(7584));
+                        .HasDefaultValue(new DateTime(2021, 5, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(9151));
 
                     b.Property<DateTime>("DataInicio")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 4, 21, 19, 33, 47, 717, DateTimeKind.Local).AddTicks(6615));
+                        .HasDefaultValue(new DateTime(2021, 4, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(8160));
 
                     b.Property<int>("Situacao")
                         .ValueGeneratedOnAdd()
@@ -188,7 +187,6 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Autor")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -208,7 +206,6 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(2000)");
 
                     b.Property<string>("Titulo")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -229,7 +226,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<int?>("EmprestimoId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("LivroId")
+                    b.Property<int>("LivroId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("Pendente")
@@ -279,7 +276,6 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
@@ -287,12 +283,10 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
                     b.Property<string>("Telefone")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
@@ -328,7 +322,9 @@ namespace ToDo.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ToDo.Domain.Models.InstituicaoEnsino", "InstituicaoEnsino")
                         .WithMany()
-                        .HasForeignKey("InstituicaoEnsinoId");
+                        .HasForeignKey("InstituicaoEnsinoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ToDo.Domain.Models.Pessoa", "Pessoa")
                         .WithMany()
@@ -384,7 +380,9 @@ namespace ToDo.Infrastructure.Data.Migrations
 
                     b.HasOne("ToDo.Domain.Models.Livro", "Livro")
                         .WithMany()
-                        .HasForeignKey("LivroId");
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Emprestimo");
 

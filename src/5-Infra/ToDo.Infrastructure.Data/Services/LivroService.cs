@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ToDo.Domain.Interfaces;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
@@ -13,26 +12,26 @@ namespace ToDo.Infrastructure.Services
 {
     public class LivroService : BaseService<Livro>, ILivroService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILivroRepository _livroRepository;
         private readonly Expression<Func<Livro, object>>[] include = { c => c.Genero };
 
-        public LivroService(ILivroRepository livroRepository, IUnitOfWork unitOfWork) : base(livroRepository)
+        public LivroService(ILivroRepository livroRepository) : base(livroRepository)
         {
             _livroRepository = livroRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<IList<Livro>> FindByAutor(LivroPesquisa livroPesquisa, PaginacaoParametroDto paginacaoParametro)
         {
             if (livroPesquisa.generoId == 0)
             {
-                return await _livroRepository.GetByExpression(paginacaoParametro, c => c.Autor.Contains(livroPesquisa.description), c => c.OrderBy(e => e.Autor), include);
+                return await _livroRepository.
+                    GetByExpression(paginacaoParametro, 
+                    c => c.Autor.Contains(livroPesquisa.description, StringComparison.InvariantCultureIgnoreCase), c => c.OrderBy(e => e.Autor), include);
             }
             else
             {
                 return await _livroRepository.GetByExpression(paginacaoParametro,
-                    c => c.Autor.Contains(livroPesquisa.description) && c.Genero.Id == livroPesquisa.generoId,
+                    c => c.Autor.Contains(livroPesquisa.description, StringComparison.InvariantCultureIgnoreCase) && c.Genero.Id == livroPesquisa.generoId,
                     c => c.OrderBy(e => e.Autor), include);
             }
         }
@@ -41,12 +40,14 @@ namespace ToDo.Infrastructure.Services
         {
             if (livroPesquisa.generoId == 0)
             {
-                return await _livroRepository.GetByExpression(paginacaoParametro, c => c.Titulo.Contains(livroPesquisa.description), c => c.OrderBy(e => e.Titulo), include);
+                return await _livroRepository.
+                    GetByExpression(paginacaoParametro, 
+                    c => c.Titulo.Contains(livroPesquisa.description, StringComparison.InvariantCultureIgnoreCase), c => c.OrderBy(e => e.Titulo), include);
             }
             else
             {
-                return await _livroRepository.GetByExpression(paginacaoParametro, 
-                    c => c.Titulo.Contains(livroPesquisa.description) && c.Genero.Id == livroPesquisa.generoId,
+                return await _livroRepository.GetByExpression(paginacaoParametro,
+                    c => c.Titulo.Contains(livroPesquisa.description, StringComparison.InvariantCultureIgnoreCase) && c.Genero.Id == livroPesquisa.generoId,
                     c => c.OrderBy(e => e.Titulo), include);
             }
         }
@@ -64,6 +65,17 @@ namespace ToDo.Infrastructure.Services
         public async Task<Livro> GetById(int id)
         {
             return await _repository.GetById(id, include);
+        }
+
+        public override async Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            int.TryParse(description, out int result);
+
+            var livros = await _livroRepository.GetByExpression(new PaginacaoParametroDto(),
+                c => c.Titulo.Contains(description, StringComparison.InvariantCultureIgnoreCase) ||
+                     c.Autor.Contains(description, StringComparison.InvariantCultureIgnoreCase) || (c.Genero != null
+                     && c.Genero.Id == result), null);
+            return livros;
         }
     }
 }

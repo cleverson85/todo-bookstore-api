@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ToDo.Infrastructure.Data.Migrations
 {
-    public partial class ToDoMigration : Migration
+    public partial class ToDoBookStore : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,10 +46,10 @@ namespace ToDo.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nome = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Nome = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     EnderecoId = table.Column<int>(type: "integer", nullable: true),
-                    Email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    Telefone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false)
+                    Email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    Telefone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,9 +68,9 @@ namespace ToDo.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Titulo = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Titulo = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     GeneroId = table.Column<int>(type: "integer", nullable: true),
-                    Autor = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Autor = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     Sinopse = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     ImagemCapa = table.Column<byte[]>(type: "bytea", nullable: true),
                     Disponivel = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
@@ -133,8 +133,8 @@ namespace ToDo.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PessoaId = table.Column<int>(type: "integer", nullable: true),
-                    InstituicaoEnsinoId = table.Column<int>(type: "integer", nullable: true),
-                    Cpf = table.Column<string>(type: "text", nullable: false),
+                    InstituicaoEnsinoId = table.Column<int>(type: "integer", nullable: false),
+                    Cpf = table.Column<string>(type: "text", nullable: true),
                     Situacao = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
@@ -145,7 +145,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                         column: x => x.InstituicaoEnsinoId,
                         principalTable: "InstituicaoEnsino",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cliente_Pessoa_PessoaId",
                         column: x => x.PessoaId,
@@ -162,7 +162,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ClienteId = table.Column<int>(type: "integer", nullable: true),
                     Situacao = table.Column<int>(type: "integer", nullable: false, defaultValue: 2),
-                    BloqueadoAte = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2021, 5, 21, 19, 33, 47, 712, DateTimeKind.Local).AddTicks(2931))
+                    BloqueadoAte = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2021, 5, 22, 23, 17, 28, 34, DateTimeKind.Local).AddTicks(232))
                 },
                 constraints: table =>
                 {
@@ -182,8 +182,8 @@ namespace ToDo.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ClienteId = table.Column<int>(type: "integer", nullable: true),
-                    DataInicio = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 4, 21, 19, 33, 47, 717, DateTimeKind.Local).AddTicks(6615)),
-                    DataDevolucao = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 5, 21, 19, 33, 47, 717, DateTimeKind.Local).AddTicks(7584)),
+                    DataInicio = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 4, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(8160)),
+                    DataDevolucao = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 5, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(9151)),
                     Situacao = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
@@ -231,7 +231,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     EmprestimoId = table.Column<int>(type: "integer", nullable: true),
-                    LivroId = table.Column<int>(type: "integer", nullable: true),
+                    LivroId = table.Column<int>(type: "integer", nullable: false),
                     Pendente = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -248,7 +248,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                         column: x => x.LivroId,
                         principalTable: "Livro",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

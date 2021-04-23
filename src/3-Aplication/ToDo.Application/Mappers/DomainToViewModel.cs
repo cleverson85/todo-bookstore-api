@@ -9,9 +9,10 @@ namespace ToDo.Application.Mappers
         public DomainToViewModel()
         {
             CreateMap<Cliente, ClienteViewModel>();
-            CreateMap<InstituicaoEnsino, InstitutoEnsinoViewModel>();
+            CreateMap<InstituicaoEnsino, InstituicaoEnsinoViewModel>();
             CreateMap<Livro, LivroViewModel>();
             CreateMap<Usuario, UsuarioViewModel>();
+            CreateMap<Emprestimo, EmprestimoViewModel>();
         }
     }
 }

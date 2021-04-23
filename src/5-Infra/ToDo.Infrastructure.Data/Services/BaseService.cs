@@ -54,7 +54,7 @@ namespace ToDo.Infrastructure.Services
             return await _repository.GetById(id, includes);
         }
 
-        public virtual async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, 
+        public virtual async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Func<Entity, bool> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, 
             params Expression<Func<Entity, object>>[] includes)
         {
             return await _repository.GetByExpression(paginacaoParametro, filter, orderBy, includes);
@@ -63,6 +63,11 @@ namespace ToDo.Infrastructure.Services
         public async Task<Entity> Find(Entity entity)
         {
             return await _repository.Find(entity);
+        }
+
+        public virtual Task<IList<Entity>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            throw new NotImplementedException();
         }
     }
 }

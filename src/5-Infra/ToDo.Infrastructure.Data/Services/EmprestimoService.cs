@@ -7,6 +7,7 @@ using ToDo.Domain.Enum;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
+using ToDo.Domain.Pesquisa;
 
 namespace ToDo.Infrastructure.Services
 {
@@ -53,6 +54,13 @@ namespace ToDo.Infrastructure.Services
 
             await _emprestimoRepository.Save(emprestimo);
 
+            return emprestimo;
+        }
+
+        public override async Task<IList<Emprestimo>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            var emprestimo = await _emprestimoRepository.GetByExpression(new PaginacaoParametroDto(),
+                c => c.Cliente.Pessoa.Nome.Contains(description) || c.Cliente.Cpf.Contains(description), null, include);
             return emprestimo;
         }
     }

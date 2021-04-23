@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 using ToDo.Api.Middlewares;
 using ToDo.Application.Filters;
 using ToDo.Application.Validators;
@@ -43,11 +45,12 @@ namespace ToDo.Api
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
-                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<ClienteValidator>());
+                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDo Book Store Api", Version = "v1" });
+                options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 

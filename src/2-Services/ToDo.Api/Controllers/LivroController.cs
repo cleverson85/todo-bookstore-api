@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using ToDo.Api.Helpers;
+using ToDo.Application.ViewModels;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
 using ToDo.Domain.Pesquisa;
@@ -9,15 +9,15 @@ using static ToDo.Domain.Util.Endpoints;
 
 namespace ToDo.Api.Controllers
 {
-    [AuthorizeAttribute]
+    [Helpers.Authorize]
     [ApiController]
     [Route("api/livro/[action]")]
-    public class LivroController : BaseController<Livro>
+    public class LivroController : BaseController<Livro, LivroViewModel>
     {
         private readonly ILivroService _livroService;
         private readonly IGeneroService _generoService;
 
-        public LivroController(ILivroService livroService, IGeneroService generoService) : base(livroService)
+        public LivroController(ILivroService livroService, IGeneroService generoService, IMapper mapper) : base(livroService, mapper)
         {
             _livroService = livroService;
             _generoService = generoService;
@@ -64,11 +64,11 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpPost]
-        [Route(Route.POST)]
-        public override async Task<IActionResult> Save([FromBody] Livro entity)
+        [Route(Route.ALL)]
+        public override async Task<IActionResult> FindByDescription([FromBody] Pesquisa pesquisa)
         {
-            await _livroService.Save(entity);
-            return Ok(await GetAll(new PaginacaoParametroDto()));
+            var result = await _livroService.FindByDescription(pesquisa.Description, new PaginacaoParametroDto());
+            return Ok(new Resultado<Livro>(result, result.Count));
         }
     }
 }

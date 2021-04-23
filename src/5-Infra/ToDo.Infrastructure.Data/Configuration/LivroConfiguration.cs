@@ -10,11 +10,9 @@ namespace ToDo.Infrastructure.Data.Configuration
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Titulo)
-                .IsRequired()
                 .HasMaxLength(250);
             builder.HasOne(c => c.Genero);
             builder.Property(c => c.Autor)
-                .IsRequired()
                 .HasMaxLength(250); ;
             builder.Property(c => c.Sinopse)
                 .HasMaxLength(2000);

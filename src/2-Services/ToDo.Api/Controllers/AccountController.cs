@@ -8,11 +8,11 @@ namespace ToDo.Api.Controllers
 {
     [ApiController]
     [Route("api/account/[action]")]
-    public class AccountController : BaseController<Usuario>
+    public class AccountController : Controller
     {
         private readonly IUsuarioService _usuarioService;
 
-        public AccountController(IUsuarioService usuarioService) : base(usuarioService)
+        public AccountController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }

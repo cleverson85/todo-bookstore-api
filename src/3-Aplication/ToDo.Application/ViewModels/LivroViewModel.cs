@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using ToDo.Domain.Models;
+﻿using ToDo.Domain.Models;
 
 namespace ToDo.Application.ViewModels
 {
-    public class LivroViewModel : Livro
+    public class LivroViewModel : BaseViewModel
     {
-        public List<LivroViewModel> Livros { get; set; }
-
-        public LivroViewModel()
-        {
-            Livros = new List<LivroViewModel>();
-        }
+        public string Titulo { get; set; }
+        public Genero Genero { get; set; }
+        public string Autor { get; set; }
+        public string Sinopse { get; set; }
+        public byte[] ImagemCapa { get; set; }
+        public bool Disponivel { get; set; } = true;
     }
 }

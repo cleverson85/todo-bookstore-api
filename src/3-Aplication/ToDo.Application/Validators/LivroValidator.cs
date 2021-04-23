@@ -20,6 +20,10 @@ namespace ToDo.Application.Validators
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Informe o autor do Livro.");
+
+            RuleFor(c => c.ImagemCapa)
+                .NotEmpty()
+                .WithMessage("Informe a imagem capa do Livro.");
         }
     }
 }

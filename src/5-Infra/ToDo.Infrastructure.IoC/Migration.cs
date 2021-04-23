@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Generic;
 using ToDo.Domain.Models;
 using ToDo.Infrastructure.Data.Contexts;
@@ -20,16 +19,16 @@ namespace ToDo.Infrastructure.IoC
                 var context = services.GetService<TContext>();
                 context.Database.Migrate();
 #if DEBUG
-               // InserirUsuarioAdmin(context as Context);
+                 InserirDadosParaTeste(context as Context);
 #endif
             }
 
             return host;
         }
-        private static void InserirUsuarioAdmin(Context context)
+        private static void InserirDadosParaTeste(Context context)
         {
-            context.AddRange(BuildGenero());
-            context.AddRange(BuildListaLivros());
+            //context.AddRange(BuildGenero());
+            //context.AddRange(BuildListaLivros());
             context.Add(BuildUsuario());
 
             context.SaveChanges();
@@ -94,6 +93,7 @@ namespace ToDo.Infrastructure.IoC
                                .With(c => c.Id, 0)
                                .With(c => c.Titulo, item)
                                .Without(c => c.Genero)
+                               .Without(c => c.ImagemCapa)
                                .Create()
                            );
             }

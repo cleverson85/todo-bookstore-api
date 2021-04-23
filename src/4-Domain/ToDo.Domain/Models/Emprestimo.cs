@@ -20,10 +20,18 @@ namespace ToDo.Domain.Models
         public void AdicionarLivroEmprestimo(Cliente cliente, IList<Livro> livros)
         {
             Cliente = cliente;
-
-            foreach (var livro in livros)
+            foreach (var item in livros)
             {
-                LivrosEmprestimo.Add(new LivroEmprestimo(this, livro, false, false));
+                LivrosEmprestimo.Add(new LivroEmprestimo(this, item, false));
+            }
+        }
+
+        public void AdicionarLivroEmprestimo(Cliente cliente, int[] livros)
+        {
+            Cliente = cliente;
+            foreach (var item in livros)
+            {
+                LivrosEmprestimo.Add(new LivroEmprestimo(this, item, false));
             }
         }
 
