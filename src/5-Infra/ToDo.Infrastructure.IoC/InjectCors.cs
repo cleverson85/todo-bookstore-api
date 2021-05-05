@@ -8,7 +8,7 @@ namespace ToDo.Infrastructure.IoC
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("http://localhost:4200", "http://localhost:8080", "http://localhost:80")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                 );

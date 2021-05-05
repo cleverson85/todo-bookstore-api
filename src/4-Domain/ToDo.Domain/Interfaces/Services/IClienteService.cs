@@ -7,8 +7,9 @@ namespace ToDo.Domain.Interfaces.Services
 {
     public interface IClienteService : IBaseService<Cliente>
     {
-        Task<IList<Cliente>> FindByName(string name, PaginacaoParametroDto paginacaoParametroDto);
+        Task<IList<Cliente>> FindByName(string name);
         Task<Cliente> FindByCpf(string cpf);
         Task<Cliente> FindByEmail(string email);
+        Task<IList<Cliente>> FindByDescription(string description);
     }
 }

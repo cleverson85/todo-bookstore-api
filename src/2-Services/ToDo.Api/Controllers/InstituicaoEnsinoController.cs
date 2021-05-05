@@ -37,28 +37,12 @@ namespace ToDo.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        [Route(Route.ALL)]
-        public override async Task<IActionResult> FindByDescription([FromBody] Pesquisa pesquisa)
-        {
-            var result = await _instituicaoEnsinoService.FindByDescription(pesquisa.Description, new PaginacaoParametroDto());
-            return Ok(new Resultado<InstituicaoEnsino>(result, result.Count));
-        }
-
         [HttpGet]
-        [Route(Route.ALL)]
-        public override async Task<IActionResult> GetAll([FromQuery] PaginacaoParametroDto paginacaoParametro)
+        [Route(Route.DESCRIPTION)]
+        public async Task<IActionResult> FindByDescription(string description)
         {
-            var result = await _instituicaoEnsinoService.GetAll();
+            var result = await _instituicaoEnsinoService.FindByDescription(description);
             return Ok(new Resultado<InstituicaoEnsino>(result, result.Count));
-        }
-
-        [HttpGet]
-        [Route(Route.ID)]
-        public override async Task<IActionResult> FindById(int id)
-        {
-            var result = await _instituicaoEnsinoService.GetById(id);
-            return Ok(result);
         }
     }
 }

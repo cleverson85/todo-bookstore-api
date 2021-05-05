@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ToDo.Domain.Models;
 using ToDo.Domain.Pesquisa;
 
@@ -8,7 +9,8 @@ namespace ToDo.Domain.Interfaces.Services
     {
         Task<Usuario> Register(Usuario usuario);
         Task<Usuario> Authenticate(Usuario usuario);
-        Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto);
+        Task<Usuario> FindUser(Usuario usuario);
         Task<Usuario> FindById(int id);
+        Task<IList<Usuario>> FindByDescription(string description);
     }
 }

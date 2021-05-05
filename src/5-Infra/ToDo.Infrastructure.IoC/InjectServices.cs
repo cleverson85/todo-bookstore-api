@@ -8,13 +8,13 @@ namespace ToDo.Infrastructure.IoC
     public static class InjectServices
     {
         public static IServiceCollection ConfigureServices(this IServiceCollection services) =>
-            services.AddScoped<IClienteService, ClienteService>()
-                    .AddScoped<IInstituicaoEnsinoService, InstituicaoEnsinoService>()
-                    .AddScoped<ILivroService, LivroService>()
-                    .AddScoped<IUsuarioService, UsuarioService>()
-                    .AddScoped<IEmprestimoService, EmprestimoService>()
-                    .AddScoped<IClienteBloqueioService, ClienteBloqueioService>()
-                    .AddScoped<IAuthJwtService, AuthJwtService>()
-                    .AddScoped<IGeneroService, GeneroService>();
+            services.AddTransient<IClienteService, ClienteService>()
+                    .AddTransient<IInstituicaoEnsinoService, InstituicaoEnsinoService>()
+                    .AddTransient<ILivroService, LivroService>()
+                    .AddTransient<IUsuarioService, UsuarioService>()
+                    .AddTransient<IEmprestimoService, EmprestimoService>()
+                    .AddTransient<IClienteBloqueioService, ClienteBloqueioService>()
+                    .AddTransient<IAuthJwtService, AuthJwtService>()
+                    .AddTransient<IGeneroService, GeneroService>();
     }
 }

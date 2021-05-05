@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>5f477cd2-5683-4c0a-9a49-1bc48fbad215</ProjectGuid>
+    <ProjectGuid>d41c1c8c-a132-468b-b6ec-f38fbd264e1e</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>todo.api</DockerServiceName>

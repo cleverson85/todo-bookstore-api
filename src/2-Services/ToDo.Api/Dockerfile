@@ -7,6 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
+
 COPY ["src/2-Services/ToDo.Api/ToDo.Api.csproj", "src/2-Services/ToDo.Api/"]
 COPY ["src/4-Domain/ToDo.Domain/ToDo.Domain.csproj", "src/4-Domain/ToDo.Domain/"]
 COPY ["src/5-Infra/ToDo.Infrastructure.IoC/ToDo.Infrastructure.IoC.csproj", "src/5-Infra/ToDo.Infrastructure.IoC/"]

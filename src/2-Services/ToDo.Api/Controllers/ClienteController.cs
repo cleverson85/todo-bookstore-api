@@ -23,9 +23,9 @@ namespace ToDo.Api.Controllers
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByName(string description, [FromQuery] PaginacaoParametroDto paginacaoParametroDto)
+        public async Task<IActionResult> FindByName(string description)
         {           
-            var result = await _clienteService.FindByName(description, paginacaoParametroDto);
+            var result = await _clienteService.FindByName(description);
             return Ok(new Resultado<Cliente>(result, result.Count));
         }
 
@@ -46,26 +46,10 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpGet]
-        [Route(Route.ID)]
-        public override async Task<IActionResult> FindById(int id)
+        [Route(Route.DESCRIPTION)]
+        public async Task<IActionResult> FindByDescription(string description)
         {
-            var result = await _clienteService.GetById(id);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route(Route.ALL)]
-        public override async Task<IActionResult> GetAll([FromQuery] PaginacaoParametroDto paginacaoParametro)
-        {
-            var result = await _clienteService.GetAll();
-            return Ok(new Resultado<Cliente>(result, result.Count));
-        }
-
-        [HttpPost]
-        [Route(Route.ALL)]
-        public override async Task<IActionResult> FindByDescription([FromBody] Pesquisa pesquisa)
-        {
-            var result = await _clienteService.FindByDescription(pesquisa.Description, new PaginacaoParametroDto());
+            var result = await _clienteService.FindByDescription(description);
             return Ok(new Resultado<Cliente>(result, result.Count));
         }
     }

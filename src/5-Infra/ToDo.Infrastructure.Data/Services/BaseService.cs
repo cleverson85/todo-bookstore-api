@@ -34,14 +34,9 @@ namespace ToDo.Infrastructure.Services
             await _repository.Delete(id);
         }
 
-        public virtual async Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro, params Expression<Func<Entity, object>>[] includes)
+        public virtual async Task<IList<Entity>> GetAll()
         {
-            return await _repository.GetAll(paginacaoParametro, includes);
-        }
-
-        public virtual async Task<IList<Entity>> GetAll(params Expression<Func<Entity, object>>[] includes)
-        {
-            return await _repository.GetAll(includes);
+            return await _repository.GetAll(new PaginacaoParametroDto());
         }
 
         public async Task<int> Count()
@@ -49,13 +44,13 @@ namespace ToDo.Infrastructure.Services
             return await _repository.Count();
         }
 
-        public virtual async Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes)
+        public virtual async Task<Entity> GetById(int id)
         {
-            return await _repository.GetById(id, includes);
+            return await _repository.GetById(id);
         }
 
-        public virtual async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Func<Entity, bool> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, 
-            params Expression<Func<Entity, object>>[] includes)
+        public virtual async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, 
+            Expression<Func<Entity, bool>> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, params Expression<Func<Entity, object>>[] includes)
         {
             return await _repository.GetByExpression(paginacaoParametro, filter, orderBy, includes);
         }
@@ -63,11 +58,6 @@ namespace ToDo.Infrastructure.Services
         public async Task<Entity> Find(Entity entity)
         {
             return await _repository.Find(entity);
-        }
-
-        public virtual Task<IList<Entity>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
-        {
-            throw new NotImplementedException();
         }
     }
 }

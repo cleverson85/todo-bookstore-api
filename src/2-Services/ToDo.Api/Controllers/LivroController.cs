@@ -25,25 +25,25 @@ namespace ToDo.Api.Controllers
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByAutor(string description, int generoId, [FromQuery] PaginacaoParametroDto paginacaoParametro)
+        public async Task<IActionResult> FindByAutor(string description, int generoId)
         {
-            var result = await _livroService.FindByAutor(new LivroPesquisa(description, generoId), paginacaoParametro);
+            var result = await _livroService.FindByAutor(new LivroPesquisa(description, generoId));
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByTitulo(string description, int generoId, [FromQuery] PaginacaoParametroDto paginacaoParametro)
+        public async Task<IActionResult> FindByTitulo(string description, int generoId)
         {
-            var result = await _livroService.FindByTitulo(new LivroPesquisa(description, generoId), paginacaoParametro);
+            var result = await _livroService.FindByTitulo(new LivroPesquisa(description, generoId));
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
         [HttpGet]
         [Route(Route.ID)]
-        public async Task<IActionResult> FindByGenero(int id, [FromQuery] PaginacaoParametroDto paginacaoParametro)
+        public async Task<IActionResult> FindByGenero(int id)
         {
-            var result = await _livroService.FindByGenero(id, paginacaoParametro);
+            var result = await _livroService.FindByGenero(id);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
@@ -55,19 +55,12 @@ namespace ToDo.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route(Route.ID)]
-        public override async Task<IActionResult> FindById(int id)
-        {
-            var result = await _livroService.GetById(id);
-            return Ok(result);
-        }
 
-        [HttpPost]
-        [Route(Route.ALL)]
-        public override async Task<IActionResult> FindByDescription([FromBody] Pesquisa pesquisa)
+        [HttpGet]
+        [Route(Route.DESCRIPTION)]
+        public async Task<IActionResult> FindByDescription(string description)
         {
-            var result = await _livroService.FindByDescription(pesquisa.Description, new PaginacaoParametroDto());
+            var result = await _livroService.FindByDescription(description);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
     }

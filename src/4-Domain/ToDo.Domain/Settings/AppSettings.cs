@@ -13,7 +13,7 @@ namespace ToDo.Domain.Settings
         public AppSettings(IConfiguration configuration)
         {
             ApiCoutries = configuration["ApiCoutries:EndPoint"];
-            ConnectionStringDefault = configuration["ConnectionString:Default"];
+            ConnectionStringDefault = configuration["CONNECTION_STRING"];
             ClientId = configuration.GetSection("Authentication:Google")["ClientId"];
             JWTSettings = new JWTSettings(configuration);
         }

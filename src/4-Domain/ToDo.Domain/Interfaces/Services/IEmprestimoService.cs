@@ -9,7 +9,6 @@ namespace ToDo.Domain.Interfaces.Services
     {
         Task EfetuarEmprestimo(Cliente cliente, IList<Livro> livros);
         Task AtualizarSituacaoEmprestimo(Emprestimo emprestimo, SituacaoEmprestimo Situacao);
-        Task<Emprestimo> FindById(int id);
         Task<Emprestimo> EfetuarDevolucaoLivro(int emprestimoId, IList<Livro> livros);
     }
 }

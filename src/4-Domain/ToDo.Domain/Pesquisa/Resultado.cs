@@ -2,12 +2,12 @@
 
 namespace ToDo.Domain.Pesquisa
 {
-    public class Resultado<Entity>
+    public class Resultado<T>
     {
-        public IEnumerable<Entity> Items { get; set; }
+        public IEnumerable<T> Items { get; set; }
         public int Count { get; set; }
 
-        public Resultado(IEnumerable<Entity> items, int count)
+        public Resultado(IEnumerable<T> items, int count)
         {
             Items = items;
             Count = count;

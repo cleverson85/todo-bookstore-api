@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace ToDo.Infrastructure.Data.Repositories
             return result;
         }
 
-        public async Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Entity, object>>[] includes)
+        public virtual async Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Entity, object>>[] includes)
         {
             IQueryable<Entity> query = _dbSet;
 
@@ -57,30 +56,15 @@ namespace ToDo.Infrastructure.Data.Repositories
             return result;
         }
 
-        public async Task<IList<Entity>> GetAll(params Expression<Func<Entity, object>>[] includes)
-        {
-            IQueryable<Entity> query = _dbSet;
-
-            if (includes.Any())
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
-            }
-
-            return await query.OrderBy(c => c.Id).ToListAsync();
-        }
-
         public async Task<int> Count()
         {
             return await _dbSet.CountAsync();
         }
 
-        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Func<Entity, bool> filter = null, 
+        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, 
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, params Expression<Func<Entity, object>>[] includes)
         {
-            IEnumerable<Entity> query = _dbSet;
+            IQueryable<Entity> query = _dbSet;
 
             if (includes.Any())
             {
@@ -107,7 +91,7 @@ namespace ToDo.Infrastructure.Data.Repositories
             return result;
         }
 
-        public async Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes)
+        public virtual async Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes)
         {
             IQueryable<Entity> query = _dbSet;
 

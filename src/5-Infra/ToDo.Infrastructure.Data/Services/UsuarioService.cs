@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
@@ -13,7 +12,6 @@ namespace ToDo.Infrastructure.Services
     public class UsuarioService : BaseService<Usuario>, IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly Expression<Func<Usuario, object>>[] include = { c => c.Pessoa };
 
         public UsuarioService(IUsuarioRepository usuarioRepository) : base(usuarioRepository)
         {
@@ -30,7 +28,7 @@ namespace ToDo.Infrastructure.Services
 
         public async Task<Usuario> Authenticate(Usuario usuario)
         {
-            var account = await FindUser(usuario, new PaginacaoParametroDto());
+            var account = await FindUser(usuario);
 
             if (account == null || !BC.Verify(usuario.Senha, account.Senha))
             {
@@ -40,15 +38,20 @@ namespace ToDo.Infrastructure.Services
             return account;
         }
 
-        public async Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto)
+        public async Task<Usuario> FindUser(Usuario usuario)
         {
-            var cliente = await GetByExpression(paginacaoParametroDto, c => c.Pessoa.Email == usuario.Pessoa.Email, null, include);
-            return cliente.FirstOrDefault();
+            var user = await _usuarioRepository.FindUser(usuario, new PaginacaoParametroDto());
+            return user;
         }
 
         public async Task<Usuario> FindById(int id)
         {
-            return await _repository.GetById(id, include);
+            return await _usuarioRepository.GetById(id);
+        }
+
+        public Task<IList<Usuario>> FindByDescription(string description)
+        {
+            throw new NotImplementedException();
         }
     }
 }

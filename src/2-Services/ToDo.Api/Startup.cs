@@ -1,5 +1,4 @@
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,11 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
 using System.Linq;
 using ToDo.Api.Middlewares;
 using ToDo.Application.Filters;
-using ToDo.Application.Validators;
 using ToDo.Domain.Settings;
 using ToDo.Infrastructure.IoC;
 
@@ -44,6 +42,7 @@ namespace ToDo.Api
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.UseCamelCasing(false);
                 })
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
 
@@ -60,29 +59,25 @@ namespace ToDo.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger()
-                   .UseSwaggerUI(options =>
-                   {
-                       options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                   });
-            }
-            else
-            {
-                app.UseHsts();
             }
 
             app
+              .UseHttpsRedirection()
               .UseStaticFiles()
               .UseRouting()
               .UseCors("CorsPolicy")
               .UseMiddleware(typeof(JwtMiddleware))
               .UseMiddleware(typeof(ErrorHandlingMiddleware))
-              .UseHttpsRedirection()
               .UseAuthentication()
               .UseAuthorization()
               .UseEndpoints(options =>
               {
                   options.MapControllers();
+              })
+              .UseSwagger()
+              .UseSwaggerUI(options =>
+              {
+                  options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
               });
         }
     }

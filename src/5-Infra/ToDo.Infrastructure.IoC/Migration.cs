@@ -19,7 +19,7 @@ namespace ToDo.Infrastructure.IoC
                 var context = services.GetService<TContext>();
                 context.Database.Migrate();
 #if DEBUG
-                 InserirDadosParaTeste(context as Context);
+                InserirDadosParaTeste(context as Context);
 #endif
             }
 
@@ -27,11 +27,16 @@ namespace ToDo.Infrastructure.IoC
         }
         private static void InserirDadosParaTeste(Context context)
         {
-            //context.AddRange(BuildGenero());
-            //context.AddRange(BuildListaLivros());
-            context.Add(BuildUsuario());
+            var user = context.Find<Usuario>(1);
 
-            context.SaveChanges();
+            if (user == null)
+            {
+                context.AddRange(BuildGenero());
+                context.AddRange(BuildListaLivros());
+                context.Add(BuildUsuario());
+
+                context.SaveChanges();
+            }
         }
 
         private static Pessoa BuildPessoa(string nome, string email, string telefone)

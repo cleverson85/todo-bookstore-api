@@ -37,7 +37,7 @@ namespace ToDo.Application.Mappers
                 .ForPath(c => c.Pessoa.Endereco.Complemento, opt => opt.MapFrom(d => d.Complemento))
                 .ForPath(c => c.Pessoa.Endereco.Cidade, opt => opt.MapFrom(d => d.Cidade))
                 .ForPath(c => c.Pessoa.Endereco.Estado, opt => opt.MapFrom(d => d.Estado))
-                .ForPath(c => c.InstituicaoEnsinoId, opt => opt.MapFrom(d => d.InstituicaoEnsinoId)); 
+                .ForPath(c => c.InstituicaoEnsino, opt => opt.MapFrom(d => d.InstituicaoEnsinoId)); 
 
             CreateMap<InstituicaoEnsinoViewModel, InstituicaoEnsino>()
                 .ForPath(c => c.Id, opt => opt.MapFrom(d => d.Id))

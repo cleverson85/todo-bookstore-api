@@ -13,13 +13,11 @@ namespace ToDo.Domain.Interfaces.Services
         Task<Entity> Save(Entity entity);
         Task Save(IList<Entity> entities);
         Task Delete(int id);
-        Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro, params Expression<Func<Entity, object>>[] includes);
-        Task<IList<Entity>> GetAll(params Expression<Func<Entity, object>>[] includes);
-        Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes);
-        Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Func<Entity, bool> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, 
+        Task<IList<Entity>> GetAll();
+        Task<Entity> GetById(int id);
+        Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, 
             params Expression<Func<Entity, object>>[] includes);
         Task<Entity> Find(Entity entity);
         Task<int> Count();
-        Task<IList<Entity>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

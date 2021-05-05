@@ -80,9 +80,7 @@ namespace TestProject
         [Fact]
         public async Task DeveBuscarUmClientePeloNome()
         {
-            var paginacao = new ToDo.Domain.Pesquisa.PaginacaoParametroDto();
-
-            var cliente = await _clienteService.FindByName(DomainFactory.BuildCliente().Pessoa.Nome, paginacao);
+            var cliente = await _clienteService.FindByName(DomainFactory.BuildCliente().Pessoa.Nome);
             Assert.NotNull(cliente);
         }
 
@@ -150,20 +148,15 @@ namespace TestProject
         [Fact]
         public async Task DeveRetornarLivroPorGenero()
         {
-            var paginacao = new PaginacaoParametroDto();
-
-            var livros = await _livroService.FindByGenero(1, paginacao);
-
+            var livros = await _livroService.FindByGenero(1);
             Assert.NotNull(livros);
         }
 
         [Fact]
         public async Task DeveFazerEmprestimo()
         {
-            var paginacao = new PaginacaoParametroDto();
-
-            var livro = await _livroService.FindByTitulo(new LivroPesquisa("O Retorno do Rei", 0), paginacao);
-            var cliente = await _clienteService.GetAll(paginacao);
+            var livro = await _livroService.FindByTitulo(new LivroPesquisa("O Retorno do Rei", 0));
+            var cliente = await _clienteService.GetAll();
 
             var emprestimo = new Emprestimo();
             emprestimo.AdicionarLivroEmprestimo(cliente.LastOrDefault(), livro);
@@ -177,12 +170,11 @@ namespace TestProject
         [Fact]
         public async Task DeveAtualizarEmprestimo()
         {
-            var paginacao = new PaginacaoParametroDto();
             var emprestimo = await _emprestimoService.GetById(6);
 
             emprestimo.DataDevolucao = emprestimo.DataDevolucao.AddDays(-110);
 
-            var livro = await _livroService.FindByTitulo(new LivroPesquisa("A Torre Negra", 0) , paginacao);
+            var livro = await _livroService.FindByTitulo(new LivroPesquisa("A Torre Negra", 0));
             livro.ToList().ForEach(c => c.Disponivel = false);
 
             emprestimo.AdicionarLivroEmprestimo(emprestimo.Cliente, livro);
