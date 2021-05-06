@@ -1,4 +1,6 @@
-﻿namespace ToDo.Application.ViewModels
+﻿using ToDo.Domain.Models;
+
+namespace ToDo.Application.ViewModels
 {
     public class ClienteViewModel : BaseViewModel
     {

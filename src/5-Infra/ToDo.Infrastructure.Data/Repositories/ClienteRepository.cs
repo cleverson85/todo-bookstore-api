@@ -12,10 +12,13 @@ namespace ToDo.Infrastructure.Data.Repositories
 {
     public class ClienteRepository : BaseRepository<Cliente>, IClienteRepository
     {
-        private readonly Expression<Func<Cliente, object>>[] include = { c => c.Pessoa, c => c.Pessoa.Endereco };
+        private readonly Expression<Func<Cliente, object>>[] include = { c => c.Pessoa, c => c.Pessoa.Endereco, c => c.InstituicaoEnsino };
+        protected readonly IInstituicaoEnsinoRepository _instituicaoEnsinoRepository;
 
-        public ClienteRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
-        { }
+        public ClienteRepository(IUnitOfWork unitOfWork, IInstituicaoEnsinoRepository instituicaoEnsinoRepository) : base(unitOfWork)
+        {
+            _instituicaoEnsinoRepository = instituicaoEnsinoRepository;
+        }
 
         public async Task<Cliente> FindByCpf(string cpf)
         {
@@ -52,6 +55,12 @@ namespace ToDo.Infrastructure.Data.Repositories
         public override Task<IList<Cliente>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Cliente, object>>[] includes)
         {
             return base.GetAll(paginacaoParametro, include);
+        }
+
+        public override async Task<Cliente> Save(Cliente entity)
+        {
+            entity.InstituicaoEnsino = await _instituicaoEnsinoRepository.GetById(entity.InstituicaoEnsino.Id);
+            return await base.Save(entity);
         }
     }
 }

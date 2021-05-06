@@ -14,7 +14,7 @@ namespace ToDo.Domain.Interfaces.Repositories
         Task SaveList(IList<Entity> entities);
         Task Update(Entity entity);
         Task Delete(int id);
-        Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro, params Expression<Func<Entity, object>>[] includes);
+        Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Entity, object>>[] includes);
         Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes);
         Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null,
             params Expression<Func<Entity, object>>[] includes);

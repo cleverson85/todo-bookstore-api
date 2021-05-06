@@ -49,11 +49,15 @@ namespace ToDo.Infrastructure.Data.Repositories
                 }
             }
 
-            var result = await query.OrderBy(c => c.Id)
-                                    .Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
-                                    .Take(paginacaoParametro.ItensPorPagina)
-                                    .ToListAsync();                
-            return result;
+            if (paginacaoParametro != null)
+            {
+                return await query.OrderBy(c => c.Id)
+                                  .Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
+                                  .Take(paginacaoParametro.ItensPorPagina)
+                                  .ToListAsync();
+            }
+            
+            return await query.ToListAsync();
         }
 
         public async Task<int> Count()
@@ -84,11 +88,13 @@ namespace ToDo.Infrastructure.Data.Repositories
                 query = orderBy(query.AsQueryable());
             }
 
-            query = query.Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
-                         .Take(paginacaoParametro.ItensPorPagina);
+            if (paginacaoParametro != null)
+            {
+                query = query.Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
+                             .Take(paginacaoParametro.ItensPorPagina);
+            }
 
-            var result = await Task.FromResult(query.ToList());
-            return result;
+            return await query.ToListAsync();
         }
 
         public virtual async Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes)

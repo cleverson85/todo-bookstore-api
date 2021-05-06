@@ -1,6 +1,9 @@
-﻿using ToDo.Domain.Interfaces.Repositories;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
+using ToDo.Domain.Pesquisa;
 using ToDo.Infrastructure.Services;
 
 namespace ToDo.Infrastructure.Data.Services

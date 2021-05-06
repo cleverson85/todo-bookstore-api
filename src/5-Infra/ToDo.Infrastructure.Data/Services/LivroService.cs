@@ -45,9 +45,9 @@ namespace ToDo.Infrastructure.Services
             return await _livroRepository.FindByGenero(generoId);
         }
 
-        public override async Task<IList<Livro>> GetAll()
+        public override async Task<IList<Livro>> GetAll(PaginacaoParametroDto paginacaoParametro)
         {
-            return await base.GetAll();
+            return await base.GetAll(paginacaoParametro);
         }
 
         public override async Task<Livro> GetById(int id)
@@ -55,9 +55,9 @@ namespace ToDo.Infrastructure.Services
             return await _livroRepository.GetById(id);
         }
 
-        public async Task<IList<Livro>> FindByDescription(string description)
+        public async Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _livroRepository.FindByDescription(description);
+            return await _livroRepository.FindByDescription(description, paginacaoParametro);
         }
     }
 }

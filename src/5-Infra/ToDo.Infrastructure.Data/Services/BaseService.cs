@@ -34,9 +34,9 @@ namespace ToDo.Infrastructure.Services
             await _repository.Delete(id);
         }
 
-        public virtual async Task<IList<Entity>> GetAll()
+        public virtual async Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro = null)
         {
-            return await _repository.GetAll(new PaginacaoParametroDto());
+            return await _repository.GetAll(paginacaoParametro);
         }
 
         public async Task<int> Count()

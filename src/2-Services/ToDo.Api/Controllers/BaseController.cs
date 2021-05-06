@@ -27,9 +27,9 @@ namespace ToDo.Api.Controllers
 
         [HttpGet]
         [Route(Route.ALL)]
-        public virtual async Task<IActionResult> GetAll()
+        public virtual async Task<IActionResult> GetAll([FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = _mapper.Map<List<ViewModel>>(await _baseService.GetAll());
+            var result = _mapper.Map<List<ViewModel>>(await _baseService.GetAll(paginacaoParametro));
             var count = await _baseService.Count();
             return Ok(new Resultado<ViewModel>(result, count));
         }
@@ -48,7 +48,7 @@ namespace ToDo.Api.Controllers
         {
             var result = _mapper.Map<Entity>(viewModel);
             await _baseService.Save(result);
-            return Ok(await GetAll());
+            return Ok(await GetAll(new PaginacaoParametroDto()));
         }
 
         [HttpDelete]
@@ -56,7 +56,7 @@ namespace ToDo.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _baseService.Delete(id);
-            return Ok(await GetAll());
+            return Ok(await GetAll(new PaginacaoParametroDto()));
         }
     }
 }

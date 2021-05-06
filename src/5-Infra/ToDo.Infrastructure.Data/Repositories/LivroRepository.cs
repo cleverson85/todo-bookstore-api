@@ -29,11 +29,11 @@ namespace ToDo.Infrastructure.Data.Repositories
                     c => c.OrderBy(e => e.Autor), include);
         }
 
-        public async Task<IList<Livro>> FindByDescription(string description)
+        public async Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametroDto)
         {
             int.TryParse(description, out int result);
 
-            var livros = await GetByExpression(new PaginacaoParametroDto(), c => c.Titulo.ToLower().Contains(description.ToLower()) ||
+            var livros = await GetByExpression(paginacaoParametroDto, c => c.Titulo.ToLower().Contains(description.ToLower()) ||
                      c.Autor.ToLower().Contains(description.ToLower()) || (c.Genero != null && c.Genero.Id == result), null, include);
             return livros;
         }
@@ -56,7 +56,7 @@ namespace ToDo.Infrastructure.Data.Repositories
 
         public override async Task<IList<Livro>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Livro, object>>[] includes)
         {
-            return await base.GetAll(new PaginacaoParametroDto(), include);
+            return await base.GetAll(paginacaoParametro, include);
         }
 
         public override async Task<Livro> GetById(int id, params Expression<Func<Livro, object>>[] includes)

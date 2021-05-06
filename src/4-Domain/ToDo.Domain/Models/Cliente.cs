@@ -6,7 +6,6 @@ namespace ToDo.Domain.Models
     public class Cliente : BaseEntity
     {
         public Pessoa Pessoa { get; set; }
-        public int InstituicaoEnsinoId { get; set; }
         public InstituicaoEnsino InstituicaoEnsino { get; set; }
         public string Cpf { get; set; }
         public SituacaoCliente Situacao { get; set; }

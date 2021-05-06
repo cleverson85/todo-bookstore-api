@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
+using ToDo.Domain.Pesquisa;
 
 namespace ToDo.Infrastructure.Services
 {
@@ -41,9 +42,9 @@ namespace ToDo.Infrastructure.Services
             return await _clienteRepository.GetById(id);
         }
 
-        public override async Task<IList<Cliente>> GetAll()
+        public override async Task<IList<Cliente>> GetAll(PaginacaoParametroDto paginacaoParametro)
         {
-            return await base.GetAll();
+            return await base.GetAll(paginacaoParametro);
         }
     }
 }

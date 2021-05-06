@@ -41,7 +41,7 @@ namespace ToDo.Infrastructure.Data.Repositories
 
         public override async Task<IList<InstituicaoEnsino>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<InstituicaoEnsino, object>>[] includes)
         {
-            return await base.GetAll(new PaginacaoParametroDto(), include);
+            return await base.GetAll(paginacaoParametro, include);
         }
     }
 }

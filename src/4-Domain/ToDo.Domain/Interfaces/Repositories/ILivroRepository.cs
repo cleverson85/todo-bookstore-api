@@ -12,6 +12,6 @@ namespace ToDo.Domain.Interfaces.Repositories
         Task<IList<Livro>> FindByTitulo(LivroPesquisa livroPesquisa);
         Task<IList<Livro>> FindByTituloAndGenero(LivroPesquisa livroPesquisa);
         Task<IList<Livro>> FindByGenero(int generoId);
-        Task<IList<Livro>> FindByDescription(string description);
+        Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

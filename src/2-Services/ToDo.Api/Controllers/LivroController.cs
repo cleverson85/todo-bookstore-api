@@ -58,9 +58,9 @@ namespace ToDo.Api.Controllers
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByDescription(string description)
+        public async Task<IActionResult> FindByDescription(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _livroService.FindByDescription(description);
+            var result = await _livroService.FindByDescription(description, paginacaoParametro);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
     }
