@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ToDo.Domain.Enum;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
@@ -49,6 +50,11 @@ namespace ToDo.Infrastructure.Services
             await _clienteService.Save(cliente);
 
             return cliente;
+        }
+
+        public override Task<IList<ClienteBloqueio>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ToDo.Infrastructure.Data.Repositories
             return await GetById(id, include);
         }
 
-        public async Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto)
+        public async Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto = null)
         {
             var user = await GetByExpression(paginacaoParametroDto, c => c.Pessoa.Email == usuario.Pessoa.Email, null, include);
             return user.FirstOrDefault();

@@ -20,7 +20,7 @@ namespace ToDo.Infrastructure.Data.Configuration
                 .HasDefaultValue(SituacaoEmprestimo.Ativa);
 
             builder.HasMany(c => c.LivrosEmprestimo)
-                .WithOne(c => c.Emprestimo)
+                .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

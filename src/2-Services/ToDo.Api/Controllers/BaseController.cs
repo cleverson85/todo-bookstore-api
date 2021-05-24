@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.ViewModels;
 using ToDo.Domain.Interfaces.Services;
@@ -12,7 +11,7 @@ namespace ToDo.Api.Controllers
 {
     [Helpers.Authorize]
     [ApiController]
-    public abstract class BaseController<Entity, ViewModel> : Controller
+    public abstract class BaseController<Entity, ViewModel> : ControllerBase
         where Entity : BaseEntity
         where ViewModel : BaseViewModel
     {
@@ -29,16 +28,16 @@ namespace ToDo.Api.Controllers
         [Route(Route.ALL)]
         public virtual async Task<IActionResult> GetAll([FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = _mapper.Map<List<ViewModel>>(await _baseService.GetAll(paginacaoParametro));
+            var result = await _baseService.GetAll(paginacaoParametro);
             var count = await _baseService.Count();
-            return Ok(new Resultado<ViewModel>(result, count));
+            return Ok(new Resultado<Entity>(result, count));
         }
 
         [HttpGet]
         [Route(Route.ID)]
         public virtual async Task<IActionResult> FindById(int id)
         {
-            var result = _mapper.Map<ViewModel>(await _baseService.GetById(id));
+            var result = await _baseService.GetById(id);
             return Ok(result);
         }
 
@@ -52,7 +51,7 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpDelete]
-        [Route(Route.ID)]
+        [Route(Route.DELETE)]
         public async Task<IActionResult> Delete(int id)
         {
             await _baseService.Delete(id);

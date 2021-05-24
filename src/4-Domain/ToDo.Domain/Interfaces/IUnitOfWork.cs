@@ -8,8 +8,7 @@ namespace ToDo.Domain.Interfaces
     public interface IUnitOfWork
     {
         Task<int> Commit();
+        void Rollback();
         DbContext GetContext();
-        IBaseRepository<Entity> GetRepository<Entity>() where Entity : BaseEntity;
-        IEmprestimoRepository GetEmprestimoRepository();
     }
 }

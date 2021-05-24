@@ -22,16 +22,7 @@ namespace ToDo.Domain.Models
             Cliente = cliente;
             foreach (var item in livros)
             {
-                LivrosEmprestimo.Add(new LivroEmprestimo(this, item, false));
-            }
-        }
-
-        public void AdicionarLivroEmprestimo(Cliente cliente, int[] livros)
-        {
-            Cliente = cliente;
-            foreach (var item in livros)
-            {
-                LivrosEmprestimo.Add(new LivroEmprestimo(this, item, false));
+                LivrosEmprestimo.Add(new LivroEmprestimo(item, false));
             }
         }
 

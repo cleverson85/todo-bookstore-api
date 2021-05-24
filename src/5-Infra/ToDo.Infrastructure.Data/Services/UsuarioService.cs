@@ -40,7 +40,7 @@ namespace ToDo.Infrastructure.Services
 
         public async Task<Usuario> FindUser(Usuario usuario)
         {
-            var user = await _usuarioRepository.FindUser(usuario, new PaginacaoParametroDto());
+            var user = await _usuarioRepository.FindUser(usuario);
             return user;
         }
 
@@ -49,7 +49,7 @@ namespace ToDo.Infrastructure.Services
             return await _usuarioRepository.GetById(id);
         }
 
-        public Task<IList<Usuario>> FindByDescription(string description)
+        public override Task<IList<Usuario>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
             throw new NotImplementedException();
         }

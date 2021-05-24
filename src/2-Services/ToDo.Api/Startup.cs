@@ -6,10 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using ToDo.Api.Middlewares;
 using ToDo.Application.Filters;
+using ToDo.Domain.Interfaces;
 using ToDo.Domain.Settings;
 using ToDo.Infrastructure.IoC;
 
@@ -56,6 +57,21 @@ namespace ToDo.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next.Invoke();
+
+                    var unitOfWork = (IUnitOfWork)context.RequestServices.GetService(typeof(IUnitOfWork));
+                    await unitOfWork.Commit();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

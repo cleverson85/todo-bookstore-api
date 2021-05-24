@@ -9,7 +9,7 @@ namespace ToDo.Api.Controllers
 {
     [Helpers.Authorize]
     [ApiController]
-    [Route("api/emprestimo/[action]")]
+    [Route(Recursos.Emprestimo)]
     public class EmprestimoController : BaseController<Emprestimo, EmprestimoViewModel>
     {
         private readonly IEmprestimoService _emprestimoService;

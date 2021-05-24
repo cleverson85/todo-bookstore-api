@@ -6,7 +6,7 @@ namespace ToDo.Domain.Interfaces.Repositories
 {
     public interface IUsuarioRepository : IBaseRepository<Usuario>
     {
-        Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto);
+        Task<Usuario> FindUser(Usuario usuario, PaginacaoParametroDto paginacaoParametroDto = null);
         Task<Usuario> FindById(int id);
     }
 }

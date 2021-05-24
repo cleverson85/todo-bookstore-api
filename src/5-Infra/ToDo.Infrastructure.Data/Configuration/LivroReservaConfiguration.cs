@@ -10,7 +10,9 @@ namespace ToDo.Infrastructure.Data.Configuration
         {
             builder.HasKey(c => c.Id);
             builder.HasOne(c => c.Cliente);
-            builder.HasOne(c => c.Livro);
+            builder.HasMany(c => c.Livros)
+                    .WithOne()
+                    .OnDelete(DeleteBehavior.Cascade);
             builder.Property(c => c.Reservado)
                 .HasDefaultValue(true);
         }

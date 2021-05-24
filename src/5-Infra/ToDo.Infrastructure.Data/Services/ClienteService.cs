@@ -21,19 +21,19 @@ namespace ToDo.Infrastructure.Services
             return await _clienteRepository.FindByCpf(cpf);
         }
 
-        public async Task<Cliente> FindByEmail(string email)
+        public async Task<Cliente> FindByEmail(string email, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _clienteRepository.FindByEmail(email);
+            return await _clienteRepository.FindByEmail(email, paginacaoParametro);
         }
 
-        public async Task<IList<Cliente>> FindByName(string name)
+        public async Task<IList<Cliente>> FindByName(string name, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _clienteRepository.FindByName(name);
+            return await _clienteRepository.FindByName(name, paginacaoParametro);
         }
 
-        public async Task<IList<Cliente>> FindByDescription(string description)
+        public override async Task<IList<Cliente>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _clienteRepository.FindByDescription(description);
+            var result = await _clienteRepository.FindByDescription(description, paginacaoParametro);
             return result;
         }
 

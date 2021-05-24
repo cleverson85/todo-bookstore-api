@@ -9,8 +9,6 @@ namespace ToDo.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<LivroEmprestimo> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.HasOne(c => c.Emprestimo)
-                .WithMany(c => c.LivrosEmprestimo);
             builder.HasOne(c => c.Livro);
             builder.Property(c => c.Pendente);
         }

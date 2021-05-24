@@ -7,8 +7,8 @@ namespace ToDo.Domain.Interfaces.Services
 {
     public interface IInstituicaoEnsinoService : IBaseService<InstituicaoEnsino>
     {
-        Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name);
+        Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name, PaginacaoParametroDto paginacaoParametro);
         Task<InstituicaoEnsino> FindInstituicaoEnsinoByCnpj(string cnpj);
-        Task<IList<InstituicaoEnsino>> FindByDescription(string description);
+        //Task<IList<InstituicaoEnsino>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

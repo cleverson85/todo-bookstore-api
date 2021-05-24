@@ -24,17 +24,11 @@ namespace ToDo.Infrastructure.Data
 
         public async Task<int> Commit()
         {
-            return await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
+            return result;
         }
 
-        public IBaseRepository<Entity> GetRepository<Entity>() where Entity : BaseEntity
-        {
-            return new BaseRepository<Entity>(this);
-        }
-
-        public IEmprestimoRepository GetEmprestimoRepository()
-        {
-            return new EmprestimoRepository(this);
-        }
+        public void Rollback()
+        { }
     }
 }

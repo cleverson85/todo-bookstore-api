@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
@@ -16,9 +18,9 @@ namespace ToDo.Infrastructure.Services
             _instituicaoEnsinoRepository = instituicaoEnsinoRepository;
         }
 
-        public async Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name)
+        public async Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _instituicaoEnsinoRepository.FindInstituicaoByName(name);
+            return await _instituicaoEnsinoRepository.FindInstituicaoByName(name, paginacaoParametro);
         }
 
         public async Task<InstituicaoEnsino> FindInstituicaoEnsinoByCnpj(string cnpj)
@@ -36,9 +38,9 @@ namespace ToDo.Infrastructure.Services
             return await base.GetAll(paginacaoParametro);
         }
 
-        public async Task<IList<InstituicaoEnsino>> FindByDescription(string description)
+        public override async Task<IList<InstituicaoEnsino>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _instituicaoEnsinoRepository.FindByDescription(description);            
+            return await _instituicaoEnsinoRepository.FindByDescription(Uri.UnescapeDataString(description), paginacaoParametro);            
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ToDo.Api.Controllers
 {
     [Helpers.Authorize]
     [ApiController]
-    [Route("api/cliente/[action]")]
+    [Route(Recursos.Cliente)]
     public class ClienteController : BaseController<Cliente, ClienteViewModel>
     {   
         private readonly IClienteService _clienteService;
@@ -22,15 +22,15 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByName(string description)
+        [Route(Route.NAME)]
+        public async Task<IActionResult> FindByName(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {           
-            var result = await _clienteService.FindByName(description);
+            var result = await _clienteService.FindByName(description, paginacaoParametro);
             return Ok(new Resultado<Cliente>(result, result.Count));
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
+        [Route(Route.CPF)]
         public async Task<IActionResult> FindByCpf(string description)
         {
             var result = await _clienteService.FindByCpf(description);
@@ -38,18 +38,18 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByEmail(string description)
+        [Route(Route.EMAIL)]
+        public async Task<IActionResult> FindByEmail(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _clienteService.FindByEmail(description);
+            var result = await _clienteService.FindByEmail(description, paginacaoParametro);
             return Ok(result);
         }
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByDescription(string description)
+        public async Task<IActionResult> FindByDescription(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _clienteService.FindByDescription(description);
+            var result = await _clienteService.FindByDescription(description, paginacaoParametro);
             return Ok(new Resultado<Cliente>(result, result.Count));
         }
     }

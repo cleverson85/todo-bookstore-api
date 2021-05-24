@@ -11,7 +11,7 @@ namespace ToDo.Api.Controllers
 {
     [Helpers.Authorize]
     [ApiController]
-    [Route("api/instituicao/[action]")]
+    [Route(Recursos.Instituicao)]
     public class InstituicaoEnsinoController : BaseController<InstituicaoEnsino, InstituicaoEnsinoViewModel>
     {
         private readonly IInstituicaoEnsinoService _instituicaoEnsinoService;
@@ -22,15 +22,15 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindInstituicaoByName(string description)
+        [Route(Route.NAME)]
+        public async Task<IActionResult> FindInstituicaoByName(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _instituicaoEnsinoService.FindInstituicaoByName(description);
+            var result = await _instituicaoEnsinoService.FindInstituicaoByName(description, paginacaoParametro);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
+        [Route(Route.CNPJ)]
         public async Task<IActionResult> FindInstituicaoEnsinoByCnpj(string description)
         {
             var result = await _instituicaoEnsinoService.FindInstituicaoEnsinoByCnpj(description);
@@ -39,9 +39,9 @@ namespace ToDo.Api.Controllers
 
         [HttpGet]
         [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByDescription(string description)
+        public async Task<IActionResult> FindByDescription(string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _instituicaoEnsinoService.FindByDescription(description);
+            var result = await _instituicaoEnsinoService.FindByDescription(description, paginacaoParametro);
             return Ok(new Resultado<InstituicaoEnsino>(result, result.Count));
         }
     }

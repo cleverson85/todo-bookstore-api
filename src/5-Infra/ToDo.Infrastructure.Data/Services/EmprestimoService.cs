@@ -5,6 +5,7 @@ using ToDo.Domain.Enum;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Models;
+using ToDo.Domain.Pesquisa;
 
 namespace ToDo.Infrastructure.Services
 {
@@ -51,6 +52,11 @@ namespace ToDo.Infrastructure.Services
         public override async Task<Emprestimo> GetById(int id)
         {
             return await _emprestimoRepository.GetById(id);
+        }
+
+        public override Task<IList<Emprestimo>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

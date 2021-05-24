@@ -10,8 +10,8 @@ using ToDo.Infrastructure.Data.Contexts;
 namespace ToDo.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210423031728_ToDo-BookStore")]
-    partial class ToDoBookStore
+    [Migration("20210521202332_To-Do-Migration")]
+    partial class ToDoMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<string>("Cpf")
                         .HasColumnType("text");
 
-                    b.Property<int>("InstituicaoEnsinoId")
+                    b.Property<int?>("InstituicaoEnsinoId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("PessoaId")
@@ -61,7 +61,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("BloqueadoAte")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 5, 22, 23, 17, 28, 34, DateTimeKind.Local).AddTicks(232));
+                        .HasDefaultValue(new DateTime(2021, 6, 20, 16, 23, 31, 759, DateTimeKind.Local).AddTicks(5063));
 
                     b.Property<int?>("ClienteId")
                         .HasColumnType("integer");
@@ -91,12 +91,12 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DataDevolucao")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 5, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(9151));
+                        .HasDefaultValue(new DateTime(2021, 6, 20, 16, 23, 31, 763, DateTimeKind.Local).AddTicks(1554));
 
                     b.Property<DateTime>("DataInicio")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 4, 22, 23, 17, 28, 37, DateTimeKind.Local).AddTicks(8160));
+                        .HasDefaultValue(new DateTime(2021, 5, 21, 16, 23, 31, 763, DateTimeKind.Local).AddTicks(645));
 
                     b.Property<int>("Situacao")
                         .ValueGeneratedOnAdd()
@@ -203,6 +203,9 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<byte[]>("ImagemCapa")
                         .HasColumnType("bytea");
 
+                    b.Property<int?>("LivroReservaId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Sinopse")
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
@@ -214,6 +217,8 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GeneroId");
+
+                    b.HasIndex("LivroReservaId");
 
                     b.ToTable("Livro");
                 });
@@ -228,7 +233,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<int?>("EmprestimoId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("LivroId")
+                    b.Property<int?>("LivroId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("Pendente")
@@ -253,9 +258,6 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.Property<int?>("ClienteId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("LivroId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("Reservado")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -264,8 +266,6 @@ namespace ToDo.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("LivroId");
 
                     b.ToTable("LivroReserva");
                 });
@@ -324,9 +324,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ToDo.Domain.Models.InstituicaoEnsino", "InstituicaoEnsino")
                         .WithMany()
-                        .HasForeignKey("InstituicaoEnsinoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InstituicaoEnsinoId");
 
                     b.HasOne("ToDo.Domain.Models.Pessoa", "Pessoa")
                         .WithMany()
@@ -370,23 +368,24 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .WithMany()
                         .HasForeignKey("GeneroId");
 
+                    b.HasOne("ToDo.Domain.Models.LivroReserva", null)
+                        .WithMany("Livros")
+                        .HasForeignKey("LivroReservaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Genero");
                 });
 
             modelBuilder.Entity("ToDo.Domain.Models.LivroEmprestimo", b =>
                 {
-                    b.HasOne("ToDo.Domain.Models.Emprestimo", "Emprestimo")
+                    b.HasOne("ToDo.Domain.Models.Emprestimo", null)
                         .WithMany("LivrosEmprestimo")
                         .HasForeignKey("EmprestimoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ToDo.Domain.Models.Livro", "Livro")
                         .WithMany()
-                        .HasForeignKey("LivroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Emprestimo");
+                        .HasForeignKey("LivroId");
 
                     b.Navigation("Livro");
                 });
@@ -397,13 +396,7 @@ namespace ToDo.Infrastructure.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ClienteId");
 
-                    b.HasOne("ToDo.Domain.Models.Livro", "Livro")
-                        .WithMany()
-                        .HasForeignKey("LivroId");
-
                     b.Navigation("Cliente");
-
-                    b.Navigation("Livro");
                 });
 
             modelBuilder.Entity("ToDo.Domain.Models.Pessoa", b =>
@@ -427,6 +420,11 @@ namespace ToDo.Infrastructure.Data.Migrations
             modelBuilder.Entity("ToDo.Domain.Models.Emprestimo", b =>
                 {
                     b.Navigation("LivrosEmprestimo");
+                });
+
+            modelBuilder.Entity("ToDo.Domain.Models.LivroReserva", b =>
+                {
+                    b.Navigation("Livros");
                 });
 #pragma warning restore 612, 618
         }

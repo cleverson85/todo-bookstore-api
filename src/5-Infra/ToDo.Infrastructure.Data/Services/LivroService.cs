@@ -16,33 +16,38 @@ namespace ToDo.Infrastructure.Services
             _livroRepository = livroRepository;
         }
 
-        public async Task<IList<Livro>> FindByAutor(LivroPesquisa livroPesquisa)
+        public async Task<IList<Livro>> FindByAutor(LivroPesquisa livroPesquisa, PaginacaoParametroDto paginacaoParametro)
         {
             if (livroPesquisa.generoId == 0)
             {
-                return await _livroRepository.FindByAutor(livroPesquisa);
+                return await _livroRepository.FindByAutor(livroPesquisa, paginacaoParametro);
             }
             else
             {
-                return await _livroRepository.FindByAutorAndGenero(livroPesquisa);
+                return await _livroRepository.FindByAutorAndGenero(livroPesquisa, paginacaoParametro);
             }
         }
 
-        public async Task<IList<Livro>> FindByTitulo(LivroPesquisa livroPesquisa)
+        public async Task<IList<Livro>> FindByTitulo(LivroPesquisa livroPesquisa, PaginacaoParametroDto paginacaoParametro)
         {
             if (livroPesquisa.generoId == 0)
             {
-                return await _livroRepository.FindByTitulo(livroPesquisa);
+                return await _livroRepository.FindByTitulo(livroPesquisa, paginacaoParametro);
             }
             else
             {
-                return await _livroRepository.FindByTituloAndGenero(livroPesquisa);
+                return await _livroRepository.FindByTituloAndGenero(livroPesquisa, paginacaoParametro);
             }
         }
 
-        public async Task<IList<Livro>> FindByGenero(int generoId)
+        public async Task<IList<Livro>> FindByGenero(int generoId, PaginacaoParametroDto paginacaoParametro)
         {
-            return await _livroRepository.FindByGenero(generoId);
+            return await _livroRepository.FindByGenero(generoId, paginacaoParametro);
+        }
+
+        public async Task<IList<Livro>> FindByGeneroAndDescription(int generoId, string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            return await _livroRepository.FindByGeneroAndDescription(generoId, description, paginacaoParametro);
         }
 
         public override async Task<IList<Livro>> GetAll(PaginacaoParametroDto paginacaoParametro)
@@ -55,9 +60,9 @@ namespace ToDo.Infrastructure.Services
             return await _livroRepository.GetById(id);
         }
 
-        public async Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        public override async Task<IList<Livro>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
             return await _livroRepository.FindByDescription(description, paginacaoParametro);
-        }
+        }        
     }
 }

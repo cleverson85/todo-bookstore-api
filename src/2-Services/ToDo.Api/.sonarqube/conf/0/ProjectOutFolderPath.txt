@@ -1,0 +1,1 @@
+D:\Desenvolvimento\Desenvolvimento-Estudos-Gambiarras\ToDo-BooksStore\api\src\2-Services\ToDo.Api\.sonarqube\out\0

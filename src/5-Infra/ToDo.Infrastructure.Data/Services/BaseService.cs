@@ -10,7 +10,7 @@ using ToDo.Domain.Models;
 
 namespace ToDo.Infrastructure.Services
 {
-    public class BaseService<Entity> : IBaseService<Entity> where Entity : BaseEntity
+    public abstract class BaseService<Entity> : IBaseService<Entity> where Entity : BaseEntity
     {
         protected readonly IBaseRepository<Entity> _repository;
 
@@ -39,11 +39,6 @@ namespace ToDo.Infrastructure.Services
             return await _repository.GetAll(paginacaoParametro);
         }
 
-        public async Task<int> Count()
-        {
-            return await _repository.Count();
-        }
-
         public virtual async Task<Entity> GetById(int id)
         {
             return await _repository.GetById(id);
@@ -59,5 +54,12 @@ namespace ToDo.Infrastructure.Services
         {
             return await _repository.Find(entity);
         }
+
+        public async Task<int> Count()
+        {
+            return await _repository.Count();
+        }
+
+        public abstract Task<IList<Entity>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 using ToDo.Application.ViewModels;
 using ToDo.Domain.Models;
 
@@ -9,51 +8,49 @@ namespace ToDo.Application.Mappers
     {
         public ViewModelToDomain()
         {
-            CreateMap<LivroViewModel, Livro>();
+            CreateMap<LivroViewModel, Livro>()
+                .ForPath(dest => dest.Genero.Id, opt => opt.MapFrom(src => src.GeneroId));
 
             CreateMap<UsuarioViewModel, Usuario>()
-                .ForPath(c => c.Pessoa.Email, opt => opt.MapFrom(d => d.Email));
+                .ForPath(c => c.Pessoa.Email, opt => opt.MapFrom(src => src.Email));
 
             CreateMap<EmprestimoViewModel, Emprestimo>()
+                .ForPath(c => c.Cliente.Id, opt => opt.MapFrom(src => src.Cliente))
                 .ForMember(c => c.LivrosEmprestimo, opt => opt.Ignore());
 
-            CreateMap<EmprestimoViewModel, Emprestimo>()
-                .ForPath(c => c.Cliente.Id, opt => opt.MapFrom(d => d.Cliente))
-                .AfterMap((c, d) => d.AdicionarLivroEmprestimo(d.Cliente, c.LivrosEmprestimo));
-
             CreateMap<ClienteViewModel, Cliente>()
-                .ForPath(c => c.Id, opt => opt.MapFrom(d => d.Id))
-                .ForPath(c => c.Cpf, opt => opt.MapFrom(d => d.Cpf))
-                .ForPath(c => c.Pessoa.Id, opt => opt.MapFrom(d => d.PessoaId))
-                .ForPath(c => c.Pessoa.Endereco.Id, opt => opt.MapFrom(d => d.EnderecoId))
-                .ForPath(c => c.Situacao, opt => opt.MapFrom(d => d.Situacao))
-                .ForPath(c => c.Pessoa.Nome, opt => opt.MapFrom(d => d.Nome))
-                .ForPath(c => c.Pessoa.Email, opt => opt.MapFrom(d => d.Email))
-                .ForPath(c => c.Pessoa.Telefone, opt => opt.MapFrom(d => d.Telefone))
-                .ForPath(c => c.Pessoa.Endereco.Cep, opt => opt.MapFrom(d => d.Cep))
-                .ForPath(c => c.Pessoa.Endereco.Bairro, opt => opt.MapFrom(d => d.Bairro))
-                .ForPath(c => c.Pessoa.Endereco.Logradouro, opt => opt.MapFrom(d => d.Logradouro))
-                .ForPath(c => c.Pessoa.Endereco.Numero, opt => opt.MapFrom(d => d.Numero))
-                .ForPath(c => c.Pessoa.Endereco.Complemento, opt => opt.MapFrom(d => d.Complemento))
-                .ForPath(c => c.Pessoa.Endereco.Cidade, opt => opt.MapFrom(d => d.Cidade))
-                .ForPath(c => c.Pessoa.Endereco.Estado, opt => opt.MapFrom(d => d.Estado))
-                .ForPath(c => c.InstituicaoEnsino.Id, opt => opt.MapFrom(d => d.InstituicaoEnsinoId));
+                .ForPath(dest  => dest .Id, opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Cpf, opt => opt.MapFrom(src => src.Cpf))
+                .ForPath(dest => dest.Pessoa.Id, opt => opt.MapFrom(src => src.PessoaId))
+                .ForPath(dest => dest.Pessoa.Endereco.Id, opt => opt.MapFrom(src => src.EnderecoId))
+                .ForPath(dest => dest.Situacao, opt => opt.MapFrom(src => src.Situacao))
+                .ForPath(dest => dest.Pessoa.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForPath(dest => dest.Pessoa.Email, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.Pessoa.Telefone, opt => opt.MapFrom(src => src.Telefone))
+                .ForPath(dest => dest.Pessoa.Endereco.Cep, opt => opt.MapFrom(src => src.Cep))
+                .ForPath(dest => dest.Pessoa.Endereco.Bairro, opt => opt.MapFrom(src => src.Bairro))
+                .ForPath(dest => dest.Pessoa.Endereco.Logradouro, opt => opt.MapFrom(src => src.Logradouro))
+                .ForPath(dest => dest.Pessoa.Endereco.Numero, opt => opt.MapFrom(src => src.Numero))
+                .ForPath(dest => dest.Pessoa.Endereco.Complemento, opt => opt.MapFrom(src => src.Complemento))
+                .ForPath(dest => dest.Pessoa.Endereco.Cidade, opt => opt.MapFrom(src => src.Cidade))
+                .ForPath(dest => dest.Pessoa.Endereco.Estado, opt => opt.MapFrom(src => src.Estado))
+                .ForPath(dest => dest.InstituicaoEnsino.Id, opt => opt.MapFrom(src => src.InstituicaoEnsinoId));
 
             CreateMap<InstituicaoEnsinoViewModel, InstituicaoEnsino>()
-                .ForPath(c => c.Id, opt => opt.MapFrom(d => d.Id))
-                .ForPath(c => c.Cnpj, opt => opt.MapFrom(d => d.Cnpj))
-                .ForPath(c => c.Pessoa.Id, opt => opt.MapFrom(d => d.PessoaId))
-                .ForPath(c => c.Pessoa.Endereco.Id, opt => opt.MapFrom(d => d.EnderecoId))
-                .ForPath(c => c.Pessoa.Nome, opt => opt.MapFrom(d => d.Nome))
-                .ForPath(c => c.Pessoa.Email, opt => opt.MapFrom(d => d.Email))
-                .ForPath(c => c.Pessoa.Telefone, opt => opt.MapFrom(d => d.Telefone))
-                .ForPath(c => c.Pessoa.Endereco.Cep, opt => opt.MapFrom(d => d.Cep))
-                .ForPath(c => c.Pessoa.Endereco.Bairro, opt => opt.MapFrom(d => d.Bairro))
-                .ForPath(c => c.Pessoa.Endereco.Logradouro, opt => opt.MapFrom(d => d.Logradouro))
-                .ForPath(c => c.Pessoa.Endereco.Numero, opt => opt.MapFrom(d => d.Numero))
-                .ForPath(c => c.Pessoa.Endereco.Complemento, opt => opt.MapFrom(d => d.Complemento))
-                .ForPath(c => c.Pessoa.Endereco.Cidade, opt => opt.MapFrom(d => d.Cidade))
-                .ForPath(c => c.Pessoa.Endereco.Estado, opt => opt.MapFrom(d => d.Estado));
+                .ForPath(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Cnpj, opt => opt.MapFrom(src => src.Cnpj))
+                .ForPath(dest => dest.Pessoa.Id, opt => opt.MapFrom(src => src.PessoaId))
+                .ForPath(dest => dest.Pessoa.Endereco.Id, opt => opt.MapFrom(src => src.EnderecoId))
+                .ForPath(dest => dest.Pessoa.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForPath(dest => dest.Pessoa.Email, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.Pessoa.Telefone, opt => opt.MapFrom(src => src.Telefone))
+                .ForPath(dest => dest.Pessoa.Endereco.Cep, opt => opt.MapFrom(src => src.Cep))
+                .ForPath(dest => dest.Pessoa.Endereco.Bairro, opt => opt.MapFrom(src => src.Bairro))
+                .ForPath(dest => dest.Pessoa.Endereco.Logradouro, opt => opt.MapFrom(src => src.Logradouro))
+                .ForPath(dest => dest.Pessoa.Endereco.Numero, opt => opt.MapFrom(src => src.Numero))
+                .ForPath(dest => dest.Pessoa.Endereco.Complemento, opt => opt.MapFrom(src => src.Complemento))
+                .ForPath(dest => dest.Pessoa.Endereco.Cidade, opt => opt.MapFrom(src => src.Cidade))
+                .ForPath(dest => dest.Pessoa.Endereco.Estado, opt => opt.MapFrom(src => src.Estado));
         }
     }
 }

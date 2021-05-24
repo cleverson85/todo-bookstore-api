@@ -11,6 +11,6 @@ namespace ToDo.Domain.Interfaces.Services
         Task<Usuario> Authenticate(Usuario usuario);
         Task<Usuario> FindUser(Usuario usuario);
         Task<Usuario> FindById(int id);
-        Task<IList<Usuario>> FindByDescription(string description);
+        //Task<IList<Usuario>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

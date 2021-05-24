@@ -16,5 +16,10 @@ namespace ToDo.Infrastructure.Data.Services
         {
             _generoRepository = generoRepository;
         }
+
+        public override Task<IList<Genero>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

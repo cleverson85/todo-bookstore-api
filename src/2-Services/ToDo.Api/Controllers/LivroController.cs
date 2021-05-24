@@ -11,7 +11,7 @@ namespace ToDo.Api.Controllers
 {
     [Helpers.Authorize]
     [ApiController]
-    [Route("api/livro/[action]")]
+    [Route(Recursos.Livro)]
     public class LivroController : BaseController<Livro, LivroViewModel>
     {
         private readonly ILivroService _livroService;
@@ -24,31 +24,39 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByAutor(string description, int generoId)
+        [Route(Route.AUTOR)]
+        public async Task<IActionResult> FindByAutor(string autor, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _livroService.FindByAutor(new LivroPesquisa(description, generoId));
+            var result = await _livroService.FindByAutor(new LivroPesquisa(autor, 0), paginacaoParametro);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
         [HttpGet]
-        [Route(Route.DESCRIPTION)]
-        public async Task<IActionResult> FindByTitulo(string description, int generoId)
+        [Route(Route.TITULO)]
+        public async Task<IActionResult> FindByTitulo(string titulo, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _livroService.FindByTitulo(new LivroPesquisa(description, generoId));
+            var result = await _livroService.FindByTitulo(new LivroPesquisa(titulo, 0), paginacaoParametro);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
         [HttpGet]
-        [Route(Route.ID)]
-        public async Task<IActionResult> FindByGenero(int id)
+        [Route(Route.GENERO_ID)]
+        public async Task<IActionResult> FindByGenero(int id, [FromQuery] PaginacaoParametroDto paginacaoParametro)
         {
-            var result = await _livroService.FindByGenero(id);
+            var result = await _livroService.FindByGenero(id, paginacaoParametro);
             return Ok(new Resultado<Livro>(result, result.Count));
         }
 
         [HttpGet]
-        [Route(Route.ALL)]
+        [Route(Route.GENERO_ID_DESCRIPTION)]
+        public async Task<IActionResult> FindByGeneroAndDescription(int id, string description, [FromQuery] PaginacaoParametroDto paginacaoParametro)
+        {
+            var result = await _livroService.FindByGeneroAndDescription(id, description, paginacaoParametro);
+            return Ok(new Resultado<Livro>(result, result.Count));
+        }
+
+        [HttpGet]
+        [Route(Route.GENEROS)]
         public async Task<IActionResult> GetAllGeneros()
         {
             var result = await _generoService.GetAll();

@@ -12,7 +12,7 @@ using ToDo.Infrastructure.Data.Contexts;
 
 namespace ToDo.Infrastructure.Data.Repositories
 {
-    public class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : BaseEntity
+    public abstract class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : BaseEntity
     {
         protected readonly Context _context;
         protected readonly DbSet<Entity> _dbSet;
@@ -27,8 +27,6 @@ namespace ToDo.Infrastructure.Data.Repositories
         {
             var entity = await GetById(id);
             _dbSet.Remove(entity);
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Entity> Find(Entity entity)
@@ -54,10 +52,11 @@ namespace ToDo.Infrastructure.Data.Repositories
                 return await query.OrderBy(c => c.Id)
                                   .Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
                                   .Take(paginacaoParametro.ItensPorPagina)
+                                  .AsNoTracking()
                                   .ToListAsync();
             }
-            
-            return await query.ToListAsync();
+
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task<int> Count()
@@ -65,7 +64,7 @@ namespace ToDo.Infrastructure.Data.Repositories
             return await _dbSet.CountAsync();
         }
 
-        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null, 
+        public async Task<IList<Entity>> GetByExpression(PaginacaoParametroDto paginacaoParametro, Expression<Func<Entity, bool>> filter = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>> orderBy = null, params Expression<Func<Entity, object>>[] includes)
         {
             IQueryable<Entity> query = _dbSet;
@@ -91,10 +90,11 @@ namespace ToDo.Infrastructure.Data.Repositories
             if (paginacaoParametro != null)
             {
                 query = query.Skip((paginacaoParametro.Pagina - 1) * paginacaoParametro.ItensPorPagina)
-                             .Take(paginacaoParametro.ItensPorPagina);
+                             .Take(paginacaoParametro.ItensPorPagina)
+                             .OrderBy(c => c.Id);
             }
 
-            return await query.ToListAsync();
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes)
@@ -109,9 +109,7 @@ namespace ToDo.Infrastructure.Data.Repositories
                 }
             }
 
-            query = query.Where(c => c.Id == id);
-
-            var result = await query.FirstOrDefaultAsync();
+            var result = await query.FirstOrDefaultAsync(c => c.Id == id);
             return result;
         }
 
@@ -119,14 +117,13 @@ namespace ToDo.Infrastructure.Data.Repositories
         {
             if (entity.Id == 0)
             {
-                _dbSet.Attach(entity);
+                await _dbSet.AddAsync(entity);
             }
             else
             {
-                _dbSet.Update(entity);
+                await Update(entity);
             }
 
-            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -135,9 +132,10 @@ namespace ToDo.Infrastructure.Data.Repositories
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public async Task Update(Entity entity)
+        public virtual async Task<Entity> Update(Entity entity)
         {
-            await Task.FromResult(_dbSet.Update(entity));
+            _dbSet.Update(entity);
+            return await Task.FromResult(entity);
         }
     }
 }

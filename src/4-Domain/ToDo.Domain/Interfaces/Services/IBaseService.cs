@@ -19,5 +19,6 @@ namespace ToDo.Domain.Interfaces.Services
             params Expression<Func<Entity, object>>[] includes);
         Task<Entity> Find(Entity entity);
         Task<int> Count();
+        Task<IList<Entity>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro);
     }
 }

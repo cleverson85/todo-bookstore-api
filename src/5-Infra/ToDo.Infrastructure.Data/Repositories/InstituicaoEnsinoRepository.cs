@@ -17,9 +17,9 @@ namespace ToDo.Infrastructure.Data.Repositories
         public InstituicaoEnsinoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         { }
 
-        public async Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name)
+        public async Task<IList<InstituicaoEnsino>> FindInstituicaoByName(string name, PaginacaoParametroDto paginacaoParametro)
         {
-            return await GetByExpression(new PaginacaoParametroDto(), c => c.Pessoa.Nome.ToLower().Contains(name.ToLower()), null, include);
+            return await GetByExpression(paginacaoParametro, c => c.Pessoa.Nome.ToLower().Contains(name.ToLower()), null, include);
         }
 
         public async Task<InstituicaoEnsino> FindInstituicaoEnsinoByCnpj(string cnpj)
@@ -28,9 +28,9 @@ namespace ToDo.Infrastructure.Data.Repositories
             return instituicao.FirstOrDefault();
         }
 
-        public async Task<IList<InstituicaoEnsino>> FindByDescription(string description)
+        public async Task<IList<InstituicaoEnsino>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
-            var instituicao = await GetByExpression(new PaginacaoParametroDto(), c => c.Cnpj.Contains(description) || c.Pessoa.Nome.ToLower().Contains(description.ToLower()), null, include);
+            var instituicao = await GetByExpression(paginacaoParametro, c => c.Cnpj.Contains(description) || c.Pessoa.Nome.ToLower().Contains(description.ToLower()), null, include);
             return instituicao;
         }
 
@@ -41,7 +41,7 @@ namespace ToDo.Infrastructure.Data.Repositories
 
         public override async Task<IList<InstituicaoEnsino>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<InstituicaoEnsino, object>>[] includes)
         {
-            return await base.GetAll(paginacaoParametro, include);
+            return await base.GetAll(paginacaoParametro, c => c.Pessoa);
         }
     }
 }

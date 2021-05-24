@@ -12,7 +12,7 @@ namespace ToDo.Domain.Interfaces.Repositories
     {
         Task<Entity> Save(Entity entity);
         Task SaveList(IList<Entity> entities);
-        Task Update(Entity entity);
+        Task<Entity> Update(Entity entity);
         Task Delete(int id);
         Task<IList<Entity>> GetAll(PaginacaoParametroDto paginacaoParametro = null, params Expression<Func<Entity, object>>[] includes);
         Task<Entity> GetById(int id, params Expression<Func<Entity, object>>[] includes);
