@@ -9,8 +9,8 @@ namespace ToDo.Infrastructure.IoC
         public static IServiceCollection ConfigureRepositories(this IServiceCollection services) =>
             services.AddScoped<IClienteRepository, ClienteRepository>()
                     .AddScoped<IInstituicaoEnsinoRepository, InstituicaoEnsinoRepository>()
-                    .AddScoped<ILivroRepository, LivroRepository>()
                     .AddScoped<IUsuarioRepository, UsuarioRepository>()
+                    .AddScoped<ILivroRepository, LivroRepository>()
                     .AddScoped<IEmprestimoRepository, EmprestimoRepository>()
                     .AddScoped<IGeneroRepository, GeneroRepository>()
                     .AddScoped<IClienteBloqueioRepository, ClienteBloqueioRepository>();
