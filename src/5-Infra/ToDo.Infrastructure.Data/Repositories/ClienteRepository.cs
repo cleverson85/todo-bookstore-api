@@ -12,8 +12,7 @@ namespace ToDo.Infrastructure.Data.Repositories
 {
     public class ClienteRepository : BaseRepository<Cliente>, IClienteRepository
     {
-        private readonly Expression<Func<Cliente, object>>[] include = { c => c.Pessoa, c => c.Pessoa.Endereco, c => c.InstituicaoEnsino, 
-            c => c.InstituicaoEnsino.Pessoa, c => c.InstituicaoEnsino.Pessoa.Endereco };
+        private readonly Expression<Func<Cliente, object>>[] include = { c => c.Pessoa, c => c.Pessoa.Endereco, c => c.InstituicaoEnsino };
         protected readonly IInstituicaoEnsinoRepository _instituicaoEnsinoRepository;
 
         public ClienteRepository(IUnitOfWork unitOfWork, IInstituicaoEnsinoRepository instituicaoEnsinoRepository) : base(unitOfWork)

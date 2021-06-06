@@ -121,7 +121,7 @@ namespace ToDo.Infrastructure.Data.Repositories
             }
             else
             {
-                await Update(entity);
+                _dbSet.Update(entity);
             }
 
             return entity;

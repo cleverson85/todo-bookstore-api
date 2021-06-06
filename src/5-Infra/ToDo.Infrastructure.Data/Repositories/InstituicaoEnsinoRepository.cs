@@ -30,8 +30,7 @@ namespace ToDo.Infrastructure.Data.Repositories
 
         public async Task<IList<InstituicaoEnsino>> FindByDescription(string description, PaginacaoParametroDto paginacaoParametro)
         {
-            var instituicao = await GetByExpression(paginacaoParametro, c => c.Cnpj.Contains(description) || c.Pessoa.Nome.ToLower().Contains(description.ToLower()), null, include);
-            return instituicao;
+            return await GetByExpression(paginacaoParametro, c => c.Cnpj.Contains(description) || c.Pessoa.Nome.ToLower().Contains(description.ToLower()), null, include);
         }
 
         public override async Task<InstituicaoEnsino> GetById(int id, params Expression<Func<InstituicaoEnsino, object>>[] includes)
