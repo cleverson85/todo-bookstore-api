@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore "../../ToDo-BooksStore.sln"
+      run: dotnet restore "./ToDo-BooksStore.sln"
     - name: Build
-      run: dotnet build "../../ToDo-BooksStore.sln" --no-restore
+      run: dotnet build "./ToDo-BooksStore.sln" --no-restore
     - name: Test
-      run: dotnet test "../../ToDo-BooksStore.sln" --no-build --verbosity normal
+      run: dotnet test "./ToDo-BooksStore.sln" --no-build --verbosity normal
