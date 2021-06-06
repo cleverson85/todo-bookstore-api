@@ -12,7 +12,7 @@ namespace ToDo.Infrastructure.IoC
                     .AddScoped<ILivroRepository, LivroRepository>()
                     .AddScoped<IUsuarioRepository, UsuarioRepository>()
                     .AddScoped<IEmprestimoRepository, EmprestimoRepository>()
-                    .AddScoped<IClienteBloqueioRepository, ClienteBloqueioRepository>()
-                    .AddScoped<IGeneroRepository, GeneroRepository>();
+                    .AddScoped<IGeneroRepository, GeneroRepository>()
+                    .AddScoped<IClienteBloqueioRepository, ClienteBloqueioRepository>();
     }
 }
